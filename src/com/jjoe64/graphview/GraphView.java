@@ -441,5 +441,9 @@ abstract public class GraphView extends LinearLayout {
 	public void setViewPort(double start, double size) {
 		viewportStart = start;
 		viewportSize = size;
+
+		//Force a new view port to regenerate the axis 
+		horlabels = null;
+		verlabels = null;
 	}
 }
