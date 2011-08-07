@@ -164,6 +164,10 @@ abstract public class GraphView extends LinearLayout {
 			}
 			return handled;
 		}
+
+		public boolean isUserInteracting() {
+			return lastTouchEventX != 0;
+		}
 	}
 
 	/**
@@ -216,6 +220,7 @@ abstract public class GraphView extends LinearLayout {
 	}
 
 	protected final Paint paint;
+	private final GraphViewContentView contentView;
 	private GraphViewData[] values;
 	private String[] horlabels;
 	private String[] verlabels;
@@ -256,7 +261,9 @@ abstract public class GraphView extends LinearLayout {
 
 		viewVerLabels = new VerLabelsView(context);
 		addView(viewVerLabels);
-		addView(new GraphViewContentView(context), new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT, 1));
+
+		contentView = new GraphViewContentView(context);
+		addView(contentView, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT, 1));
 	}
 
 	protected GraphViewData[] _values() {
@@ -442,8 +449,20 @@ abstract public class GraphView extends LinearLayout {
 		viewportStart = start;
 		viewportSize = size;
 
-		//Force a new view port to regenerate the axis 
+		//Force a new view port to regenerate the axis
 		horlabels = null;
 		verlabels = null;
+	}
+
+	public double getViewPortStart() {
+		return viewportStart;
+	}
+
+	public double getViewPortSize() {
+		return viewportSize;
+	}
+
+	public boolean isUserInteracting() {
+		return contentView.isUserInteracting();
 	}
 }
